@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Edit Price – Hover Tooltip</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="edit-price" aria-label="Edit Price">
+        <header class="edit-price__header">
+          <h1>Edit Price *</h1>
+          <span class="badge">3% admin fee updated</span>
+        </header>
+
+        <p class="edit-price__desc">
+          Booking lengths determine the price used to calculate your earnings.
+          For example, a nine-day booking would be charged at the weekly price
+          pro-rata.
+        </p>
+
+        <div class="cards">
+          <!-- Per Day -->
+          <article class="card" data-index="0">
+            <div class="card__input">
+              <span class="card__prefix">$</span>
+              <input
+                class="price-input"
+                type="text"
+                value="8.67"
+                inputmode="decimal"
+              />
+            </div>
+            <div class="card__period">Per day</div>
+
+            <div class="card__break">
+              <div class="row">
+                <div class="row__label">Gross</div>
+                <div class="row__val" data-field="gross">$8.94</div>
+              </div>
+
+              <div class="row row--fee">
+                <div class="row__label row__label--wrap">
+                  Admin fee (3%)
+                  <span
+                    class="tip-trigger"
+                    data-tip="A 3% administration fee is applied to cover platform costs and payment processing."
+                    >ⓘ</span
+                  >
+                </div>
+                <div class="row__val" data-field="adminFee">−$0.27</div>
+              </div>
+
+              <div class="row row--earn">
+                <div class="row__label">Earnings</div>
+                <div class="row__val" data-field="earnings">$8.67</div>
+              </div>
+
+              <div class="hr"></div>
+
+              <div class="row row--muted">
+                <div class="row__label row__label--wrap">
+                  Price shown to drivers (incl. GST)
+                </div>
+                <div class="row__val" data-field="drivers">$9.83</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Per Week -->
+          <article class="card" data-index="1">
+            <div class="card__input">
+              <span class="card__prefix">$</span>
+              <input
+                class="price-input"
+                type="text"
+                value="43.36"
+                inputmode="decimal"
+              />
+            </div>
+            <div class="card__period">Per week</div>
+
+            <div class="card__break">
+              <div class="row">
+                <div class="row__label">Gross</div>
+                <div class="row__val" data-field="gross">$44.70</div>
+              </div>
+
+              <div class="row row--fee">
+                <div class="row__label row__label--wrap">
+                  Admin fee (3%)
+                  <span
+                    class="tip-trigger"
+                    data-tip="A 3% administration fee is applied to cover platform costs and payment processing."
+                    >ⓘ</span
+                  >
+                </div>
+                <div class="row__val" data-field="adminFee">−$1.34</div>
+              </div>
+
+              <div class="row row--earn">
+                <div class="row__label">Earnings</div>
+                <div class="row__val" data-field="earnings">$43.36</div>
+              </div>
+
+              <div class="hr"></div>
+
+              <div class="row row--muted">
+                <div class="row__label row__label--wrap">
+                  Price shown to drivers (incl. GST)
+                </div>
+                <div class="row__val" data-field="drivers">$49.17</div>
+              </div>
+            </div>
+          </article>
+
+          <!-- Per Month -->
+          <article class="card" data-index="2">
+            <div class="card__input">
+              <span class="card__prefix">$</span>
+              <input
+                class="price-input"
+                type="text"
+                value="186.44"
+                inputmode="decimal"
+              />
+            </div>
+            <div class="card__period">Per month</div>
+
+            <div class="card__break">
+              <div class="row">
+                <div class="row__label">Gross</div>
+                <div class="row__val" data-field="gross">$192.21</div>
+              </div>
+
+              <div class="row row--fee">
+                <div class="row__label row__label--wrap">
+                  Admin fee (3%)
+                  <span
+                    class="tip-trigger"
+                    data-tip="A 3% administration fee is applied to cover platform costs and payment processing."
+                    >ⓘ</span
+                  >
+                </div>
+                <div class="row__val" data-field="adminFee">−$5.77</div>
+              </div>
+
+              <div class="row row--earn">
+                <div class="row__label">Earnings</div>
+                <div class="row__val" data-field="earnings">$186.44</div>
+              </div>
+
+              <div class="hr"></div>
+
+              <div class="row row--muted">
+                <div class="row__label row__label--wrap">
+                  Price shown to drivers (incl. GST)
+                </div>
+                <div class="row__val" data-field="drivers">$211.43</div>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <footer class="edit-price__footer">
+          <div class="footer__top">
+            <div class="footer__copy">
+              These amounts match your invoice totals after the 3% admin fee.
+            </div>
+            <span
+              class="tip-trigger"
+              data-tip="These calculations show exactly what you'll earn after our platform fee. The amounts shown match what appears on your invoices."
+              >ⓘ</span
+            >
+          </div>
+          <div class="note">
+            Drivers see price incl. GST refers to the amount displayed on the
+            booking side. You receive the net earnings shown above.
+          </div>
+        </footer>
+      </section>
+    </main>
+
+    <!-- Tooltip overlay -->
+    <div id="tooltip" class="tooltip" role="tooltip" aria-hidden="true">
+      <div class="tooltip__arrow"></div>
+      <div class="tooltip__content"></div>
+    </div>
+
+    <script>
+      // --- calculations ---
+      function calc(priceBox, earningsVal) {
+        const earnings = parseFloat(earningsVal);
+        if (Number.isNaN(earnings)) return;
+
+        const gross = earnings / 0.97;
+        const admin = gross * 0.03;
+        const drivers = earnings * 1.134;
+
+        priceBox.querySelector(
+          '[data-field="gross"]'
+        ).textContent = `$${gross.toFixed(2)}`;
+        priceBox.querySelector(
+          '[data-field="adminFee"]'
+        ).textContent = `−$${admin.toFixed(2)}`;
+        priceBox.querySelector(
+          '[data-field="earnings"]'
+        ).textContent = `$${earnings.toFixed(2)}`;
+        priceBox.querySelector(
+          '[data-field="drivers"]'
+        ).textContent = `$${drivers.toFixed(2)}`;
+      }
+
+      document.querySelectorAll(".card").forEach((card) => {
+        const input = card.querySelector(".price-input");
+        input.addEventListener("input", (e) => {
+          e.target.value = e.target.value
+            .replace(/[^0-9.]/g, "")
+            .replace(/^(\d*\.\d*).*$/, "$1");
+          calc(card, e.target.value || "0");
+        });
+        calc(card, input.value);
+      });
+
+      // --- tooltip (hover version) ---
+      (function () {
+        const tooltip = document.getElementById("tooltip");
+        const content = tooltip.querySelector(".tooltip__content");
+        const arrow = tooltip.querySelector(".tooltip__arrow");
+
+        function show(el) {
+          content.textContent = el.getAttribute("data-tip") || "";
+          tooltip.setAttribute("aria-hidden", "false");
+          tooltip.classList.add("is-visible");
+          position(el);
+        }
+
+        function hide() {
+          tooltip.setAttribute("aria-hidden", "true");
+          tooltip.classList.remove("is-visible");
+        }
+
+        function position(el) {
+          const r = el.getBoundingClientRect();
+          const tw = tooltip.offsetWidth;
+          const th = tooltip.offsetHeight;
+          const gap = 8;
+
+          let top = r.top - th - gap;
+          let left = r.left + r.width / 2 - tw / 2;
+
+          let flipped = false;
+          if (top < 8) {
+            top = r.bottom + gap;
+            flipped = true;
+          }
+
+          const maxLeft = window.innerWidth - tw - 8;
+          if (left < 8) left = 8;
+          if (left > maxLeft) left = maxLeft;
+
+          tooltip.style.top = `${top}px`;
+          tooltip.style.left = `${left}px`;
+          arrow.classList.toggle("is-bottom", flipped);
+        }
+
+        document.querySelectorAll(".tip-trigger").forEach((trigger) => {
+          trigger.addEventListener("mouseenter", () => show(trigger));
+          trigger.addEventListener("mouseleave", hide);
+        });
+
+        window.addEventListener("scroll", hide, true);
+        window.addEventListener("resize", hide);
+      })();
+    </script>
+  </body>
+</html>
