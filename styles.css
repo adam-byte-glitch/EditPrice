@@ -1,0 +1,292 @@
+:root {
+    --bg: #f3f4f6;
+    --text: #36414d;
+    --muted: #6b7280;
+    --border: #e6e8eb;
+    --card: #fff;
+    --accent: #16a34a;
+    --badge-bg: #e8f7ee;
+    --badge-border: #bfe7cf;
+    --badge-text: #017e54;
+    --tooltip: #111827;
+  }
+  
+  /* page */
+  * {
+    box-sizing: border-box;
+  }
+  html,
+  body {
+    height: 100%;
+  }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font: 16px/1.5 Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial,
+      sans-serif;
+  }
+  
+  .app {
+    display: grid;
+    place-items: center; /* center card horizontally & vertically */
+    min-height: 100vh; /* take full height */
+    padding: 16px;
+  }
+  
+  /* section card (fixed width per your spec) */
+  .edit-price {
+    width: 506px;
+    max-width: 100%;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+    overflow: visible;
+  }
+  
+  /* header */
+  .edit-price__header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .edit-price__header h1 {
+    font-size: 22px;
+    margin: 0;
+  }
+  .badge {
+    margin-left: auto;
+    background: var(--badge-bg);
+    color: var(--badge-text);
+    border: 1px solid var(--badge-border);
+    border-radius: 999px;
+    padding: 6px 10px;
+    font-weight: 700;
+    font-size: 12px;
+  }
+  
+  /* description (tighter spacing) */
+  .edit-price__desc {
+    padding: 8px 16px; /* reduced top/bottom */
+    font-size: 14px; /* slightly smaller */
+    line-height: 1.4; /* a bit tighter */
+  }
+  
+  /* cards */
+  .cards {
+    display: flex;
+    gap: 8px;
+    padding: 0 16px 16px;
+  }
+  .card {
+    position: relative;
+    z-index: 0;
+    flex: 1 1 0;
+    min-width: 0;
+    background: #fafbfc;
+    border-radius: 10px;
+    padding: 8px;
+    transition: 0.2s background, 0.2s box-shadow;
+  }
+  .card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    pointer-events: none;
+    z-index: 0;
+  }
+  .card > * {
+    position: relative;
+    z-index: 1;
+  }
+  .card:hover {
+    background: #f5f6f7;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  
+  /* input container with subtle outline */
+  .card__input {
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border-radius: 8px;
+    padding: 10px 8px;
+    gap: 6px;
+  
+    border: 1px solid var(--border);
+    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  }
+  .card__input:focus-within {
+    border-color: #3b82f6; /* blue-500 */
+    box-shadow: 0 0 0 1px #93c5fd inset; /* blue-300 */
+  }
+  
+  .card__prefix {
+    color: #9aa1aa;
+    font-weight: 700;
+  }
+  .price-input {
+    border: none;
+    outline: none;
+    background: transparent;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--text);
+    width: 100%;
+  }
+  
+  .card__period {
+    margin-top: 6px;
+    font-size: 14px;
+  }
+  
+  /* breakdown */
+  .card__break {
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border);
+  }
+  .hr {
+    border-top: 1px solid var(--border);
+    margin: 8px 0;
+    height: 0;
+  }
+  
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: 12px;
+  }
+  .row__label {
+    font-size: 10px;
+  }
+  .row--muted {
+    color: #4b5563;
+  }
+  .row--earn {
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .row__label--wrap {
+    white-space: normal;
+  }
+  
+  /* ------- Admin Fee fix ------- */
+  .row.row--fee {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    column-gap: 6px;
+  }
+  .row.row--fee .row__label,
+  .row.row--fee .row__label * {
+    white-space: normal !important;
+    word-break: break-word;
+    line-height: 1.3;
+    min-width: 0;
+    margin: 0;
+  }
+  .row.row--fee .row__val {
+    white-space: nowrap;
+    margin-left: 0;
+    position: relative;
+    z-index: 2;
+  }
+  
+  /* ------- Drivers price stacked 3-liner ------- */
+  .row.row--muted {
+    display: block !important;
+    margin-top: 6px;
+  }
+  .row.row--muted .row__label {
+    display: block;
+    font-size: 10px;
+    margin-bottom: 2px;
+    white-space: normal;
+    line-height: 1.3;
+  }
+  .row.row--muted .row__val {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    margin-top: 2px;
+  }
+  
+  /* footer */
+  .edit-price__footer {
+    border-top: 1px solid var(--border);
+    padding: 11px 16px 16px;
+  }
+  .footer__top {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: space-between;
+  }
+  .footer__copy {
+    font-size: 14px;
+  }
+  .note {
+    margin-top: 6px;
+    background: #fffaed;
+    color: #ba7531;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 12px;
+  }
+  
+  /* tooltip (hover) */
+  .tip-trigger {
+    cursor: help;
+    border: 0;
+    background: transparent;
+    font: inherit;
+  }
+  .tooltip {
+    position: fixed;
+    z-index: 99999;
+    background: var(--tooltip);
+    color: #fff;
+    padding: 10px 12px;
+    border-radius: 8px;
+    max-width: 220px;
+    line-height: 1.4;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-2px);
+    transition: 0.15s;
+  }
+  .tooltip.is-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  .tooltip__content {
+    font-size: 12px;
+  }
+  .tooltip__arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--tooltip);
+    transform: rotate(45deg);
+    left: 50%;
+    margin-left: -4px;
+    bottom: -4px;
+  }
+  .tooltip__arrow.is-bottom {
+    top: -4px;
+    bottom: auto;
+  }
+  /* Add space between Admin Fee and Earnings */
+  .row.row--fee {
+    margin-bottom: 6px; /* adjust spacing as needed */
+  }
+  
